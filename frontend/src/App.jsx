@@ -1,5 +1,8 @@
-import { Routes, Route } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import { Routes, Route, Navigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import { useQuery } from "@tanstack/react-query";
+
+import { axiosInstance } from "./lib/axios.js";
 
 import Layout from "./components/layout/Layout.jsx";
 import HomePage from "./pages/HomePage.jsx";
@@ -7,12 +10,40 @@ import SignUpPage from "./pages/auth/SignUpPage.jsx";
 import LoginPage from "./pages/auth/LoginPage.jsx";
 
 function App() {
+  const { data: authUser, isLoading } = useQuery({
+    queryKey: ["authUser"],
+    queryFn: async () => {
+      try {
+        const res = await axiosInstance.get("/auth/me");
+        return res.data;
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          return null; // User is not authenticated
+        }
+        toast.error(error.response.data.message || "Something went wrong.");
+      }
+    },
+  });
+
+  // console.log("authUser:", authUser);
+
+  if (isLoading) return null;
+
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/"
+          element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/signup"
+          element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />}
+        />
+        <Route
+          path="/login"
+          element={!authUser ? <LoginPage /> : <Navigate to={"/"} />}
+        />
       </Routes>
 
       <Toaster />
