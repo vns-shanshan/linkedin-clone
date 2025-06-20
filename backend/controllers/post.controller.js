@@ -7,7 +7,7 @@ import { sendCommentNotificationEmail } from "../emails/emailHandlers.js";
 
 export const getFeedPosts = async (req, res) => {
     try {
-        const posts = await Post.find({ author: { $in: req.user.connections } }).populate("author", "name profilePicture headline").populate("comments.user", "name profilePicture").sort({ createdAt: -1 });
+        const posts = await Post.find({ author: { $in: [...req.user.connections, req.user._id] } }).populate("author", "name profilePicture headline").populate("comments.user", "name profilePicture").sort({ createdAt: -1 });
 
         res.status(200).json(posts);
     } catch (error) {
@@ -19,6 +19,8 @@ export const getFeedPosts = async (req, res) => {
 export const createPost = async (req, res) => {
     try {
         const { content, image } = req.body;
+        // console.log("content:", content);
+        // console.log("image:", image);
 
         let newPost;
 
