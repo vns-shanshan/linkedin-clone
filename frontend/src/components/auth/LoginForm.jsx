@@ -12,9 +12,7 @@ const LoginForm = () => {
   const queryClient = useQueryClient();
 
   const { mutate: loginMutation, isLoading } = useMutation({
-    mutationFn: async (userData) => {
-      await axiosInstance.post("/auth/login", userData);
-    },
+    mutationFn: async (userData) => axiosInstance.post("/auth/login", userData),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["authUser"],

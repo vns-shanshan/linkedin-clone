@@ -157,14 +157,13 @@ export const removeConnection = async (req, res) => {
     }
 }
 
-// TODO: EXPLAIN THIS FUNCTION
 export const getConnectionStatus = async (req, res) => {
     try {
-        const { userId: targetUserId } = req.params;
+        const targetUserId = req.params.userId;
         const currentUserId = req.user._id;
 
         const currentUser = req.user;
-        if (currentUser.connection.includes(targetUserId)) {
+        if (currentUser.connections.includes(targetUserId)) {
             return res.json({ status: "connected" });
         }
 

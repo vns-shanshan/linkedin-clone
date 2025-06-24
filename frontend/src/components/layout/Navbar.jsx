@@ -13,24 +13,18 @@ const Navbar = () => {
 
   const { data: notifications } = useQuery({
     queryKey: ["notifications"],
-    queryFn: async () => {
-      await axiosInstance.get("/notifications");
-    },
+    queryFn: async () => axiosInstance.get("/notifications"),
     enabled: !!authUser, // Only fetch notifications if user is authenticated
   });
 
   const { data: connectionRequests } = useQuery({
     queryKey: ["connectionRequests"],
-    queryFn: async () => {
-      await axiosInstance.get("/connections/requests");
-    },
+    queryFn: async () => axiosInstance.get("/connections/requests"),
     enabled: !!authUser, // Only fetch connections if user is authenticated
   });
 
   const { mutate: logout } = useMutation({
-    mutationFn: async () => {
-      await axiosInstance.post("/auth/logout");
-    },
+    mutationFn: async () => axiosInstance.post("/auth/logout"),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["authUser"],
