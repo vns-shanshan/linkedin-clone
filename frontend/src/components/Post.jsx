@@ -30,9 +30,7 @@ const Post = ({ post }) => {
   const queryClient = useQueryClient();
 
   const { mutate: deletePost, isPending: isDeletingPost } = useMutation({
-    mutationFn: async () => {
-      await axiosInstance.delete(`/posts/delete/${post._id}`);
-    },
+    mutationFn: () => axiosInstance.delete(`/posts/delete/${post._id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       toast.success("Post deleted successfully");
@@ -43,11 +41,10 @@ const Post = ({ post }) => {
   });
 
   const { mutate: createComment, isPending: isAddingComment } = useMutation({
-    mutationFn: async (newComment) => {
-      await axiosInstance.post(`/posts/${post._id}/comment`, {
+    mutationFn: (newComment) =>
+      axiosInstance.post(`/posts/${post._id}/comment`, {
         content: newComment,
-      });
-    },
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       toast.success("Comment added successfully");
@@ -58,9 +55,7 @@ const Post = ({ post }) => {
   });
 
   const { mutate: likePost, isPending: isLikingPost } = useMutation({
-    mutationFn: async () => {
-      await axiosInstance.post(`/posts/${post._id}/like`);
-    },
+    mutationFn: () => axiosInstance.post(`/posts/${post._id}/like`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
