@@ -11,12 +11,14 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
+import { useParams } from "react-router-dom";
 
 import { axiosInstance } from "../lib/axios";
 
 import PostAction from "./PostAction";
 
 const Post = ({ post }) => {
+  const { postId } = useParams();
   const { data: authUser } = useQuery({
     queryKey: ["authUser"],
   });
@@ -58,6 +60,7 @@ const Post = ({ post }) => {
     mutationFn: () => axiosInstance.post(`/posts/${post._id}/like`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
   });
 
