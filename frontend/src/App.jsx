@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage.jsx";
 import SignUpPage from "./pages/auth/SignUpPage.jsx";
 import LoginPage from "./pages/auth/LoginPage.jsx";
 import NotificationsPage from "./pages/NotificationsPage.jsx";
+import NetworkPage from "./pages/NetworkPage.jsx";
 
 function App() {
   const { data: authUser, isLoading } = useQuery({
@@ -50,6 +51,10 @@ function App() {
           element={
             authUser ? <NotificationsPage /> : <Navigate to={"/login"} />
           }
+        />
+        <Route
+          path="/network"
+          element={authUser ? <NetworkPage /> : <Navigate to={"/login"} />}
         />
       </Routes>
 
