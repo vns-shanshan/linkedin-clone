@@ -63,7 +63,7 @@ export const acceptConnectionRequest = async (req, res) => {
         await request.save();
 
         // if I'm your friend, then ur also my friend
-        await User.findByIdAndUpdate(request.sender._id, { $addToSet: { connections: request.userId } })
+        await User.findByIdAndUpdate(request.sender._id, { $addToSet: { connections: userId } })
         await User.findByIdAndUpdate(userId, { $addToSet: { connections: request.sender._id } })
 
         const notification = new Notification({
