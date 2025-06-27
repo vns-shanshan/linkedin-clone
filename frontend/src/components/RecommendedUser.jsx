@@ -38,7 +38,6 @@ const RecommendedUser = ({ user }) => {
       queryClient.invalidateQueries({
         queryKey: ["connectionStatus", user._id],
       });
-      // TODO: Check if we need to invalidate other queries
     },
     onError: (error) => {
       toast.error(
@@ -55,7 +54,6 @@ const RecommendedUser = ({ user }) => {
       queryClient.invalidateQueries({
         queryKey: ["connectionStatus", user._id],
       });
-      // TODO: Check if we need to invalidate other queries
     },
     onError: (error) => {
       toast.error(

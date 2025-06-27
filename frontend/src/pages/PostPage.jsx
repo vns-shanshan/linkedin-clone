@@ -19,8 +19,6 @@ const PostPage = () => {
   if (isLoading) return <div>Loading post...</div>;
   if (!post?.data) return <div>Post not found</div>;
 
-  // TODO: Make the post reaction works in the post page
-
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
       <div className="hidden lg:block lg:col-span-1">
