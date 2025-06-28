@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Clock, UserCheck, X, UserPlus, Camera, MapPin } from "lucide-react";
 
 import { axiosInstance } from "../lib/axios.js";
+// import useAuthUser from "../hooks/useAuthUser.js";
 
 const ProfileHeader = ({ userData, onSave, isOwnProfile }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -11,9 +12,7 @@ const ProfileHeader = ({ userData, onSave, isOwnProfile }) => {
 
   const queryClient = useQueryClient();
 
-  const { data: authUser } = useQuery({
-    queryKey: ["authUser"],
-  });
+  // const { data: authUser } = useAuthUser();
 
   const { data: connectionStatus, refetch: refetchConnectionStatus } = useQuery(
     {
@@ -23,9 +22,9 @@ const ProfileHeader = ({ userData, onSave, isOwnProfile }) => {
     }
   );
 
-  const isConnected = userData?.connections.some(
-    (connection) => connection === authUser?._id
-  );
+  // const isConnected = userData?.connections.some(
+  //   (connection) => connection === authUser?._id
+  // );
 
   const { mutate: sendConnectionRequest } = useMutation({
     mutationFn: (userId) =>
@@ -85,12 +84,13 @@ const ProfileHeader = ({ userData, onSave, isOwnProfile }) => {
   });
 
   const getConnectionStatus = () => {
-    if (isConnected) return "connected";
-    if (!isConnected) return "not_connected";
+    // if (isConnected) return "connected";
+    // if (!isConnected) return "not_connected";
     return connectionStatus?.data?.status;
   };
 
   const renderConnectionButton = () => {
+    console.log("connectionStatus: ", connectionStatus, getConnectionStatus());
     const baseClass =
       "text-white py-2 px-4 rounded-full transition duration-300 flex items-center justify-center";
 

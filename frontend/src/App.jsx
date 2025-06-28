@@ -1,8 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
-import { useQuery } from "@tanstack/react-query";
-
-import { axiosInstance } from "./lib/axios.js";
+import { Toaster } from "react-hot-toast";
 
 import Layout from "./components/layout/Layout.jsx";
 import HomePage from "./pages/HomePage.jsx";
@@ -12,22 +9,10 @@ import NotificationsPage from "./pages/NotificationsPage.jsx";
 import NetworkPage from "./pages/NetworkPage.jsx";
 import PostPage from "./pages/PostPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import useAuthUser from "./hooks/useAuthUser.js";
 
 function App() {
-  const { data: authUser, isLoading } = useQuery({
-    queryKey: ["authUser"],
-    queryFn: async () => {
-      try {
-        const res = await axiosInstance.get("/auth/me");
-        return res.data;
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          return null; // User is not authenticated
-        }
-        toast.error(error.response.data.message || "Something went wrong.");
-      }
-    },
-  });
+  const { data: authUser, isLoading } = useAuthUser();
 
   // console.log("authUser:", authUser);
 
