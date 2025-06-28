@@ -24,7 +24,7 @@ const ProfileHeader = ({ userData, onSave, isOwnProfile }) => {
   );
 
   const isConnected = userData?.connections.some(
-    (connection) => connection._id === authUser?._id
+    (connection) => connection === authUser?._id
   );
 
   const { mutate: sendConnectionRequest } = useMutation({
@@ -94,7 +94,7 @@ const ProfileHeader = ({ userData, onSave, isOwnProfile }) => {
     const baseClass =
       "text-white py-2 px-4 rounded-full transition duration-300 flex items-center justify-center";
 
-    switch (getConnectionStatus) {
+    switch (getConnectionStatus()) {
       case "connected":
         return (
           <div className="flex gap-2 justify-center">
